@@ -6,6 +6,7 @@ export const env = createEnv({
     DATABASE_URL: z.url(),
     AUTH_SECRET: z.string(),
     TRUSTED_AUTH_ORIGINS: z.string(),
+    ENVIRONMENT: z.enum(["development", "production"]).default("development"),
   },
   runtimeEnv: process.env,
 });

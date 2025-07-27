@@ -24,10 +24,10 @@ export const createClient = (appName: string, baseUrl: string) =>
     appName,
     trustedOrigins: env.TRUSTED_AUTH_ORIGINS.split(","),
     advanced: {
-      defaultCookieAttributes: {
-        sameSite: "None",
-        secure: true,
-        partitioned: true,
+      crossSubDomainCookies: {
+        enabled: true,
+        domain:
+          env.ENVIRONMENT === "development" ? "localhost" : ".astro-dev.tech",
       },
       database: {
         generateId: () => nanoid(),

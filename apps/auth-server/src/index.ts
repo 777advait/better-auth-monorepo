@@ -4,11 +4,12 @@ import { auth } from "./auth";
 import { secureHeaders } from "hono/secure-headers";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
+import { env } from "cloudflare:workers";
 
 const app = new Hono();
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: env.TRUSTED_AUTH_ORIGINS.split(","),
     credentials: true,
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowHeaders: [

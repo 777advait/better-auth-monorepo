@@ -11,7 +11,15 @@ export const isAuthenticated = createMiddleware<{
     auth: typeof auth;
   };
 }>(async (c, next) => {
+  const headersObj = Object.fromEntries(c.req.raw.headers.entries());
+  console.log("Incoming headers:", headersObj); // Should show { cookie: "...", origin: "...", etc. }
+
+  // Also log the specific cookie for sanity
+  const cookie = c.req.header("Cookie");
+  console.log("Cookie header:", cookie); // Expect: "__Secure-better-auth.session_token=..."
   const sessionData = await auth.api.getSession({ headers: c.req.raw.headers });
+
+  console.log("Session Data:", sessionData);
 
   if (!sessionData) throw new HTTPException(401, { cause: "UNAUTHORIZED" });
 

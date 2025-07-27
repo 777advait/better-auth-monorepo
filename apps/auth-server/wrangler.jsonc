@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "better-auth-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-12",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "dev": {
+    "port": 3002
+  }
+}
