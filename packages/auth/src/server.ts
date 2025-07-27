@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { emailOTP } from "better-auth/plugins";
 import { db } from "@better/db";
 import * as schema from "@better/db/schema";
+import { nanoid } from "nanoid";
 
 export const createClient = (appName: string, baseUrl: string) =>
   betterAuth({
@@ -17,7 +18,7 @@ export const createClient = (appName: string, baseUrl: string) =>
         },
       }),
     ],
-    database: drizzleAdapter(db, { provider: "sqlite", schema }),
+    database: drizzleAdapter(db, { provider: "pg", schema }),
     baseUrl,
     appName,
     trustedOrigins: [
@@ -26,11 +27,12 @@ export const createClient = (appName: string, baseUrl: string) =>
       "http://localhost:3002",
     ],
     advanced: {
-      defaultCookieAttributes: {
-        sameSite: "None",
-        secure: true,
-        partitioned: true,
+      crossSubDomainCookies: {
+        enabled: true,
         domain: "localhost",
+      },
+      database: {
+        generateId: () => nanoid(),
       },
     },
   });

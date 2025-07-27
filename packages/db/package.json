@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "^1.2.19",
+    "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.4"
   },
   "peerDependencies": {
@@ -13,6 +14,7 @@
     "@libsql/client": "^0.15.10",
     "@t3-oss/env-core": "^0.13.8",
     "drizzle-orm": "^0.44.3",
+    "pg": "^8.16.3",
     "zod": "^4.0.10"
   },
   "exports": {
