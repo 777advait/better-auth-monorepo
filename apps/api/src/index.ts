@@ -6,6 +6,7 @@ import { secureHeaders } from "hono/secure-headers";
 import { cors } from "hono/cors";
 import { authRouter } from "./routers/auth.router";
 import { helloRouter } from "./routers/hello.router";
+import { env } from "./core/env";
 
 const app = new Hono().basePath("/api");
 
@@ -15,7 +16,7 @@ app.use(
   prettyJSON(),
   secureHeaders(),
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3002"],
+    origin: env.ALLOWED_ORIGINS.split(","),
     credentials: true,
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowHeaders: [

@@ -6,7 +6,8 @@ export const env = createEnv({
     AUTH_URL: z.url(),
     AUTH_SECRET: z.string(),
     DATABASE_URL: z.url(),
-    DATABASE_AUTH_TOKEN: z.string(),
+    ALLOWED_ORIGINS: z.string(),
+    TRUSTED_AUTH_ORIGINS: z.string(),
   },
   runtimeEnv: process.env,
 });

@@ -8,8 +8,8 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.url(),
-    DATABASE_AUTH_TOKEN: z.string(),
     AUTH_SECRET: z.string(),
+    TRUSTED_AUTH_ORIGINS: z.string(),
   },
 
   /**
@@ -32,6 +32,7 @@ export const env = createEnv({
     NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
+    TRUSTED_AUTH_ORIGINS: process.env.TRUSTED_AUTH_ORIGINS,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

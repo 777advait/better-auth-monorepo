@@ -1,11 +1,11 @@
-import React from "react";
-import ClientSession from "~/components/client-session";
-import { api } from "~/lib/api/server";
-import { getQueryClient, HydrateClient } from "~/lib/query-client";
+"use client";
 
-export default async function SessionPage() {
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery({
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import { api } from "~/lib/api/client";
+
+export default function ClientSession() {
+  const { data, isLoading, error } = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
       const res = await api.auth.me.$get();
@@ -15,9 +15,13 @@ export default async function SessionPage() {
     },
   });
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return <div>No session data</div>;
+
   return (
-    <HydrateClient>
-      <ClientSession />
-    </HydrateClient>
+    <div>
+      <p>{JSON.stringify(data, null, 12)}</p>
+    </div>
   );
 }
