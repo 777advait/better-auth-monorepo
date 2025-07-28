@@ -1,10 +1,10 @@
 import { Hono } from "hono";
-import type { auth } from "./core/auth";
+import { auth } from "./core/auth";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
 import { cors } from "hono/cors";
-import { authRouter } from "./routers/auth.router";
+import { userRouter } from "./routers/user.router";
 import { helloRouter } from "./routers/hello.router";
 import { env } from "./core/env";
 
@@ -29,9 +29,11 @@ app.use(
   })
 );
 
+app.on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw));
+
 export const appRouter = app
   .route("/hello", helloRouter)
-  .route("/auth", authRouter);
+  .route("/user", userRouter);
 export type AppRouter = typeof appRouter;
 
 export default {

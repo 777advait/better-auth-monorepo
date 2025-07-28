@@ -11,13 +11,10 @@ export const isAuthenticated = createMiddleware<{
     auth: typeof auth;
   };
 }>(async (c, next) => {
-  const headersObj = Object.fromEntries(c.req.raw.headers.entries());
-  console.log("Incoming headers:", headersObj); // Should show { cookie: "...", origin: "...", etc. }
+  const headers = new Headers();
 
-  // Also log the specific cookie for sanity
-  const cookie = c.req.header("Cookie");
-  console.log("Cookie header:", cookie); // Expect: "__Secure-better-auth.session_token=..."
-  const sessionData = await auth.api.getSession({ headers: c.req.raw.headers });
+  headers.set("Cookie", c.req.header("Cookie") ?? "");
+  const sessionData = await auth.api.getSession({ headers });
 
   console.log("Session Data:", sessionData);
 

@@ -19,7 +19,6 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_AUTH_URL: z.url(),
     NEXT_PUBLIC_API_URL: z.url(),
   },
 
@@ -30,7 +29,7 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     DATABASE_AUTH_TOKEN: process.env.DATABASE_AUTH_TOKEN,
-    NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
+
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
     TRUSTED_AUTH_ORIGINS: process.env.TRUSTED_AUTH_ORIGINS,

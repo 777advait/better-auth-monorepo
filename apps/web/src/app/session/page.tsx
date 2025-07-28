@@ -8,7 +8,7 @@ export default function ClientSession() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
-      const res = await api.auth.me.$get();
+      const res = await api.user.me.$get();
 
       if (!res.ok) throw new Error("Failed to fetch session");
       return res.json();
