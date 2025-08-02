@@ -1,27 +1,14 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/lib/api/client";
+import ClientSession from "~/components/client-session";
+import { getQueryClient, HydrateClient, prefetch, trpc } from "~/trpc/server";
 
-export default function ClientSession() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["session"],
-    queryFn: async () => {
-      const res = await api.user.me.$get();
-
-      if (!res.ok) throw new Error("Failed to fetch session");
-      return res.json();
-    },
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!data) return <div>No session data</div>;
+export default async function SessionPage() {
+  // const queryClient = getQueryClient();
+  prefetch(trpc.auth.me.queryOptions());
 
   return (
-    <div>
-      <p>{JSON.stringify(data, null, 12)}</p>
-    </div>
+    <HydrateClient>
+      <ClientSession />
+    </HydrateClient>
   );
 }

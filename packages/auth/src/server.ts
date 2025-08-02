@@ -29,7 +29,6 @@ export const createClient = (appName: string, baseUrl: string) =>
         domain:
           env.ENVIRONMENT === "development" ? "localhost" : ".astro-dev.tech",
       },
-
       database: {
         generateId: () => nanoid(),
       },

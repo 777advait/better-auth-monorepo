@@ -2,18 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { api } from "~/lib/api/client";
+
+import { useTRPC } from "~/trpc/client";
 
 export default function ClientSession() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["session"],
-    queryFn: async () => {
-      const res = await api.user.me.$get();
+  const trpc = useTRPC();
 
-      if (!res.ok) throw new Error("Failed to fetch session");
-      return res.json();
-    },
-  });
+  const { data, isLoading, error } = useQuery(trpc.auth.me.queryOptions());
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -21,7 +16,7 @@ export default function ClientSession() {
 
   return (
     <div>
-      <p>{JSON.stringify(data, null, 12)}</p>
+      <p>{JSON.stringify(data, null, 2)}</p>
     </div>
   );
 }

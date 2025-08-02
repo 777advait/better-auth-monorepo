@@ -4,9 +4,10 @@ import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
 import { cors } from "hono/cors";
-import { userRouter } from "./routers/user.router";
-import { helloRouter } from "./routers/hello.router";
 import { env } from "./core/env";
+import { trpcServer } from "@hono/trpc-server";
+import { appRouter } from "./trpc/trpc";
+import { createTRPCContext } from "./trpc/init";
 
 const app = new Hono().basePath("/api");
 
@@ -24,17 +25,23 @@ app.use(
       "Content-Type",
       "accept-language",
       "Cookie",
+      "x-trpc-source",
     ],
+    exposeHeaders: ["Set-Cookie", "Content-Length"],
     maxAge: 34560000,
   })
 );
 
-app.on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw));
+app.use(
+  "/trpc/*",
+  trpcServer({
+    router: appRouter,
+    createContext: createTRPCContext,
+    endpoint: "/api/trpc",
+  })
+);
 
-export const appRouter = app
-  .route("/hello", helloRouter)
-  .route("/user", userRouter);
-export type AppRouter = typeof appRouter;
+app.on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw));
 
 export default {
   fetch: app.fetch,
