@@ -8,6 +8,7 @@ import { env } from "./core/env";
 import { trpcServer } from "@hono/trpc-server";
 import { appRouter } from "./trpc/trpc";
 import { createTRPCContext } from "./trpc/init";
+import { TRPCError } from "@trpc/server";
 
 const app = new Hono().basePath("/api");
 
@@ -43,7 +44,4 @@ app.use(
 
 app.on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw));
 
-export default {
-  fetch: app.fetch,
-  port: 3001,
-};
+export default { fetch: app.fetch, port: 3001 };

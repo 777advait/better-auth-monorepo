@@ -62,28 +62,28 @@ export function HydrateClient(props: { children: React.ReactNode }) {
   );
 }
 
-export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
+export async function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   queryOptions: T
 ) {
   const queryClient = getQueryClient();
 
   if (queryOptions.queryKey[1]?.type === "infinite") {
-    void queryClient.prefetchInfiniteQuery(queryOptions as any);
+    await queryClient.prefetchInfiniteQuery(queryOptions as any);
   } else {
-    void queryClient.prefetchQuery(queryOptions);
+    await queryClient.prefetchQuery(queryOptions);
   }
 }
 
-export function batchPrefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
-  queryOptionsArray: T[]
-) {
+export async function batchPrefetch<
+  T extends ReturnType<TRPCQueryOptions<any>>
+>(queryOptionsArray: T[]) {
   const queryClient = getQueryClient();
 
   for (const queryOptions of queryOptionsArray) {
     if (queryOptions.queryKey[1]?.type === "infinite") {
-      void queryClient.prefetchInfiniteQuery(queryOptions as any);
+      await queryClient.prefetchInfiniteQuery(queryOptions as any);
     } else {
-      void queryClient.prefetchQuery(queryOptions);
+      await queryClient.prefetchQuery(queryOptions);
     }
   }
 }
